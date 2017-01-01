@@ -4,12 +4,22 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FLAnimatedImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-RunningMan.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,7 +32,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2A78DEAA5E88C5A4417AA91ED1625F9C</key>
+		<key>2062DB1BDB8C66A50C6141D25602F226</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>433284E9D5C883BDFF30462EC96F6346</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -32,7 +47,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ACFC162C7B7CF9FF667CD8D2C1B1F411</key>
+		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BC5F20E064DB655CEFEEBFE51B2B9E1E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

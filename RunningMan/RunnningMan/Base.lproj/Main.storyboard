@@ -105,7 +105,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Runing Man" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8jj-nc-S0a">
-                                <rect key="frame" x="56.666666666666657" y="97" width="302" height="67"/>
+                                <rect key="frame" x="72.666666666666657" y="97" width="270.33333333333337" height="67"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="67" id="uuX-Ef-7Hn"/>
                                 </constraints>
@@ -145,7 +145,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e2X-Bb-rPR">
-                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="628"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="168" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Hgs-sa-KdX">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="636"/>
@@ -165,7 +165,7 @@
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="1v9-Ie-daS" userLabel="InfoStack View">
                                                                     <rect key="frame" x="0.0" y="0.0" width="314" height="64"/>
                                                                     <subviews>
-                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1E9AEE14-B755-4695-BADC-1F2A16473315" translatesAutoresizingMaskIntoConstraints="NO" id="UOa-HI-OxW">
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="942E9E06-7935-4362-BD24-27E14C329190" translatesAutoresizingMaskIntoConstraints="NO" id="UOa-HI-OxW">
                                                                             <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                             <constraints>
@@ -1267,7 +1267,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="W1y-O9-E94" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="history" id="uSH-e3-vby"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XuR-2v-NkJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="XuR-2v-NkJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2619,7 +2619,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jyB-X5-2XH" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ty5-58-sSG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ty5-58-sSG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2638,7 +2638,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZSd-Ri-VP0" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="8At-95-EQg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MmC-Yd-kMX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="MmC-Yd-kMX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -3009,7 +3009,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EnK-4M-6cA" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ibi-dm-KDi">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ibi-dm-KDi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -3573,7 +3573,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KAh-qL-I6g" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="5FQ-ky-xzA"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="daW-WJ-tF5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="daW-WJ-tF5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -3588,7 +3588,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1E9AEE14-B755-4695-BADC-1F2A16473315" width="64" height="64">
+        <image name="942E9E06-7935-4362-BD24-27E14C329190" width="64" height="64">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -3926,8 +3926,8 @@ Si1KMEpCSkVKSgAAAAAAAAIBAAAAAAAAAEEAAAAAAAAAAAAAAAAAAEpMA
         <image name="Weatherbackground" width="375" height="189"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="j1p-RN-bH0"/>
-        <segue reference="RgG-MS-vBV"/>
+        <segue reference="S5j-c0-yam"/>
         <segue reference="Ran-ub-nhd"/>
+        <segue reference="j1p-RN-bH0"/>
     </inferredMetricsTieBreakers>
 </document>
