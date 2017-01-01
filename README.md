@@ -1,2 +1,2 @@
-# Running_Man
-一个很健康的IOS APP
+# RunningMan
+一个很健康的项目
