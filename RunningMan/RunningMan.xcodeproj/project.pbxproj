@@ -51,6 +51,7 @@
 		C88589371E0F8AC100004577 /* SocialGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88589361E0F8AC100004577 /* SocialGroupViewController.swift */; };
 		C88589391E0F8D3B00004577 /* ActivitiesImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88589381E0F8D3B00004577 /* ActivitiesImageCell.swift */; };
 		C885893B1E0F8D4C00004577 /* RecentActivitiesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C885893A1E0F8D4C00004577 /* RecentActivitiesCell.swift */; };
+		C8CE710C1E1D5AF0009A78E4 /* testStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CE710B1E1D5AF0009A78E4 /* testStruct.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,8 @@
 		C88589361E0F8AC100004577 /* SocialGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGroupViewController.swift; sourceTree = "<group>"; };
 		C88589381E0F8D3B00004577 /* ActivitiesImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivitiesImageCell.swift; sourceTree = "<group>"; };
 		C885893A1E0F8D4C00004577 /* RecentActivitiesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentActivitiesCell.swift; sourceTree = "<group>"; };
+		C8CE710B1E1D5AF0009A78E4 /* testStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testStruct.m; sourceTree = "<group>"; };
+		C8CE710D1E1D5B05009A78E4 /* testStruct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = testStruct.h; sourceTree = "<group>"; };
 		E1F565FB85D12BC91C26FC23 /* Pods_RunningMan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunningMan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -271,6 +274,8 @@
 				C86E61C01E0BF23A0005AF68 /* LaunchScreen.storyboard */,
 				C86E61C31E0BF23A0005AF68 /* Info.plist */,
 				C86E61BB1E0BF23A0005AF68 /* RunnningMan.xcdatamodeld */,
+				C8CE710B1E1D5AF0009A78E4 /* testStruct.m */,
+				C8CE710D1E1D5B05009A78E4 /* testStruct.h */,
 			);
 			name = RunningMan;
 			path = RunnningMan;
@@ -413,6 +418,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C88589391E0F8D3B00004577 /* ActivitiesImageCell.swift in Sources */,
+				C8CE710C1E1D5AF0009A78E4 /* testStruct.m in Sources */,
 				C86E61B71E0BF23A0005AF68 /* LogInViewController.swift in Sources */,
 				C821534F1E0FD39200DDC982 /* HotActivitiesCell.swift in Sources */,
 				C82153531E0FEF8B00DDC982 /* MineOrganizedActivitiesCell.swift in Sources */,

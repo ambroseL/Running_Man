@@ -55,10 +55,11 @@ class MapViewController: UIViewController,MAMapViewDelegate {
 
         initMapView()
         initSwipeGesture()
-        initTimer()
+        
     }
     
     func initTimer(){
+        isCounting = true
         timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
         timer?.setEventHandler(handler: {
             // 返回主线程处理一些事件，更新UI等等
@@ -68,7 +69,6 @@ class MapViewController: UIViewController,MAMapViewDelegate {
         })
         timer?.scheduleRepeating(deadline: .now(), interval: .milliseconds(10))
         timer?.resume()
-        isCounting = true
     }
     
     func startCounting(){
@@ -124,6 +124,8 @@ class MapViewController: UIViewController,MAMapViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
         UIApplication.shared.statusBarStyle = .lightContent
+        isCounting = false
+        initTimer()
     }
     
     override func didReceiveMemoryWarning() {

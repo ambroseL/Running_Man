@@ -141,7 +141,6 @@ class HealthViewController: UIViewController,UITextFieldDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func updateDistanceCircle(value:CGFloat){
@@ -160,12 +159,9 @@ class HealthViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func editingDistanceChanged(sender:AnyObject){
         let value:Float = Float(runningDistanceGoallField.text!)!
-        if value <= excerciseData[presentType.rawValue][0]{
-            if value < excerciseData[presentType.rawValue][0]{
-                alert(message: "目标值应大于实际运动量，不要偷懒哦！")
-                runningDistanceGoallField.text! = String(format:"%.1f",excerciseData[presentType.rawValue][1])
-            }
-            return
+        if value < excerciseData[presentType.rawValue][0]{
+            alert(message: "目标值应大于实际运动量，不要偷懒哦！")
+            runningDistanceGoallField.text! = String(format:"%.1f",excerciseData[presentType.rawValue][1])
         }
         let ratio:CGFloat = CGFloat(value).divided(by: self.runningDistanceCircle.maxValue)
         excerciseData[presentType.rawValue][1] = Float(value)
@@ -175,12 +171,9 @@ class HealthViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func editingStepsChanged(sender:AnyObject){
         let value:Float = Float(walkingStepsGoallField.text!)!
-        if value <= excerciseData[presentType.rawValue][2]{
-            if value < excerciseData[presentType.rawValue][2]{
-                alert(message: "目标值应大于实际运动量，不要偷懒哦！")
-                walkingStepsGoallField.text! = String(format:"%.0f",excerciseData[presentType.rawValue][3])
-            }
-            return
+        if value < excerciseData[presentType.rawValue][2]{
+            alert(message: "目标值应大于实际运动量，不要偷懒哦！")
+            walkingStepsGoallField.text! = String(format:"%.0f",excerciseData[presentType.rawValue][3])
         }
         let ratio:CGFloat = CGFloat(value).divided(by: self.walkingStepsCircle.maxValue)
         excerciseData[presentType.rawValue][3] = Float(value)
@@ -189,13 +182,10 @@ class HealthViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func editingStairsChanged(sender:AnyObject){
         let value:Float = Float(climbingStairsGoallField.text!)!
-        if value <= excerciseData[presentType.rawValue][4]{
-            if value < excerciseData[presentType.rawValue][4]
-            {
-                alert(message: "目标值应大于实际运动量，不要偷懒哦！")
-                climbingStairsGoallField.text! = String(format:"%.0f",excerciseData[presentType.rawValue][5])
-            }
-            return
+        if value < excerciseData[presentType.rawValue][4]
+        {
+            alert(message: "目标值应大于实际运动量，不要偷懒哦！")
+            climbingStairsGoallField.text! = String(format:"%.0f",excerciseData[presentType.rawValue][5])
         }
         let ratio:CGFloat = CGFloat(value).divided(by: self.climbingStairsCircle.maxValue)
         excerciseData[presentType.rawValue][5] = Float(value)
