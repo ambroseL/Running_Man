@@ -146,34 +146,21 @@ class SearchActivityController: UITableViewController,UIPickerViewDelegate,UIPic
     
     func initPickerView(textField: UITextField,pickerView:UIPickerView){
         pickerView.delegate = self
-        
         textField.inputView = pickerView
         pickerView.backgroundColor = UIColor.white
         addToolbar2TextField(textField: textField)
     }
     
     func addToolbar2TextField(textField:UITextField){
-        
-        let toolBar = UIToolbar()
-        toolBar.frame = CGRect(x:0, y:0, width:0, height:40)
-        
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.isOpaque = true
-        toolBar.tintColor = UIColor(red: 235.0/255.0, green: 74.0/255.0, blue: 94.0/255.0, alpha: 1.0)
-        
-        let spaceBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-        
-        spaceBarButton.width = 250
-        
-        
-        let toolBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.undoButtonPressed))
-        
-        let closeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(self.closeButtonPressed))
-        
-        toolBar.items = [toolBarButton, spaceBarButton, closeButton]
-        
-        textField.inputAccessoryView = toolBar
-
+        let numberToolbar = UIToolbar(frame: CGRect(x:0, y:0, width:self.view.frame.width, height:50.0))
+        numberToolbar.barStyle = UIBarStyle.default
+        numberToolbar.items = [
+            UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.undoButtonPressed)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.closeButtonPressed))]
+        numberToolbar.sizeToFit()
+        numberToolbar.tintColor = UIColor(red: 235.0/255.0, green: 74.0/255.0, blue: 94.0/255.0, alpha: 1.0)
+        textField.inputAccessoryView = numberToolbar
     }
 
     func initTimePickerView(textField: UITextField,datePickerView:UIDatePicker){
@@ -256,8 +243,8 @@ class SearchActivityController: UITableViewController,UIPickerViewDelegate,UIPic
         let calendar = Calendar.current
         let beginDate:Date = Date()
         let endDate:Date = calendar.date(byAdding: .hour, value: 1, to: beginDate)!
-        startDateTextField.text = convertDate2String(date: beginDate)
-        endDateTextField.text = convertDate2String(date: endDate)
+        startDateTextField.placeholder = convertDate2String(date: beginDate)
+        endDateTextField.placeholder = convertDate2String(date: endDate)
         
     }
 

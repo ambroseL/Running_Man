@@ -400,7 +400,7 @@ class SocialGroupViewController: UIViewController,UITableViewDataSource, UITable
         if segue.identifier == "PopOver" {
             let popoverViewController = segue.destination
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
-            popoverViewController.preferredContentSize   = CGSize(width:120, height:80)
+            popoverViewController.preferredContentSize   = CGSize(width:138, height:80)
             let popoverPresentationViewController = popoverViewController.popoverPresentationController
             popoverPresentationViewController?.permittedArrowDirections = .up
             popoverPresentationViewController?.delegate = self
@@ -483,8 +483,6 @@ class SocialGroupViewController: UIViewController,UITableViewDataSource, UITable
         }
         return UITableViewCellEditingStyle.delete
     }
-    
-    
 }
 
 

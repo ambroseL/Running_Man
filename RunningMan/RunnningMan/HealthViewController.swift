@@ -64,6 +64,10 @@ class HealthViewController: UIViewController,UITextFieldDelegate {
         initData()
         initTouchGesture()
         
+        initToolBar(textField: runningDistanceGoallField)
+        initToolBar(textField: climbingStairsGoallField)
+        initToolBar(textField: walkingStepsGoallField)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -212,14 +216,26 @@ class HealthViewController: UIViewController,UITextFieldDelegate {
         }
     }
     
-    //点击屏幕空白处时停止编辑
+    //点击屏幕空白处时取消编辑
+    func cancelEdit(){
+        let index = presentType.rawValue
+        if self.runningDistanceGoallField.isFirstResponder{
+            runningDistanceGoallField.text = String(format:"%.1f",excerciseData[index][1])
+        }else if climbingStairsGoallField.isFirstResponder{
+            climbingStairsGoallField.text = String(format:"%.0f",excerciseData[index][5])
+        }else if walkingStepsGoallField.isFirstResponder{
+            walkingStepsGoallField.text = String(format:"%.0f",excerciseData[index][3])
+        }
+        self.endEdit()
+    }
+    
     func endEdit(){
         self.view.endEditing(true)
     }
     
     //初始化点击手势
     func initTouchGesture(){
-        let tap =  UITapGestureRecognizer(target:self, action:#selector(self.endEdit))
+        let tap =  UITapGestureRecognizer(target:self, action:#selector(self.cancelEdit))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
@@ -240,15 +256,30 @@ class HealthViewController: UIViewController,UITextFieldDelegate {
     
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.origin.y -= keyboardSize.height
+            if self.view.frame.origin.y >= 0{
+                self.view.frame.origin.y -= (keyboardSize.height - 50.0)
+            }
         }
         
     }
     
     func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.origin.y += keyboardSize.height
+            if self.view.frame.origin.y < 0{
+                self.view.frame.origin.y += (keyboardSize.height - 50.0)
+            }
         }
     }
     
+    func initToolBar(textField:UITextField){
+        let numberToolbar = UIToolbar(frame: CGRect(x:0, y:0, width:self.view.frame.width, height:50.0))
+        numberToolbar.barStyle = UIBarStyle.default
+        numberToolbar.items = [
+            UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.cancelEdit)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.endEdit))]
+        numberToolbar.sizeToFit()
+        numberToolbar.tintColor = UIColor(red: 235.0/255.0, green: 74.0/255.0, blue: 94.0/255.0, alpha: 1.0)
+        textField.inputAccessoryView = numberToolbar
+    }
 }

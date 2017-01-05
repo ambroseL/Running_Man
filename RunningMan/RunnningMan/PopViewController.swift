@@ -16,7 +16,7 @@ class PopViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         renderImageColor()
-        let seperatorLine = myView.init(frame: CGRect(x:5,y:40,width:110,height:1))
+        let seperatorLine = myView.init(frame: CGRect(x:14,y:40,width:110,height:1))
         self.view.addSubview(seperatorLine)
         seperatorLine.draw(self.view.frame)
     }
