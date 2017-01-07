@@ -1,0 +1,2 @@
+0107  bl层 修改 UserKeyInfo.   remove "mailAddress" add "telephoneNum"
+           修改 UserSocialInfo  add "exceciseNum" 
