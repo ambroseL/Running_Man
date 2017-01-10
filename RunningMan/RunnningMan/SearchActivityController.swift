@@ -17,6 +17,8 @@ class SearchActivityController: UITableViewController,UIPickerViewDelegate,UIPic
     @IBOutlet var switchButton: UISwitch!
     @IBOutlet var memberLimitCell:UITableViewCell!
     @IBOutlet var memberLimitOptionCell:UITableViewCell!
+    @IBOutlet var searchActivityButton:UIBarButtonItem!
+    
     
     var typePickerView:UIPickerView = UIPickerView()
     var memberNumPickerView:UIPickerView = UIPickerView()
@@ -24,8 +26,6 @@ class SearchActivityController: UITableViewController,UIPickerViewDelegate,UIPic
     var typePickOption = ["一对一","多人行","社团"]
     var memberNumPickOption = ["3-5人","5人以上"]
     
-    
-   
     override func viewDidLoad() {
         super.viewDidLoad()
         initTableView()
@@ -38,6 +38,7 @@ class SearchActivityController: UITableViewController,UIPickerViewDelegate,UIPic
         initTimeSetting()
         memberLimitCell.isHidden = true
         memberLimitOptionCell.isHidden = true
+        searchActivityButton.isEnabled = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -211,6 +212,7 @@ class SearchActivityController: UITableViewController,UIPickerViewDelegate,UIPic
         //保存data到数据库
         //...
         print("Saving data to context ...")
+        self.endEdit()
         //reviewText.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
@@ -219,12 +221,13 @@ class SearchActivityController: UITableViewController,UIPickerViewDelegate,UIPic
         //self.view.endEditing(true)
         //reviewText.resignFirstResponder()
         print("Cancel data to context ...")
+        self.endEdit()
         dismiss(animated: true, completion: nil)
     }
         
     //设置section与header间的距离
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return CGFloat(20)
+        return CGFloat(20)
     }
     
     func convertDate2String(date:Date) -> String{
@@ -252,7 +255,25 @@ class SearchActivityController: UITableViewController,UIPickerViewDelegate,UIPic
         if switchButton.isOn {
             memberLimitCell.isHidden = false
         } else {
-           memberLimitCell.isHidden = true
+            memberLimitCell.isHidden = true
         }
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Search2Result" {
+            let destinationController = segue.destination as! ActivityListViewContoller
+            destinationController.displayType = .SEARCH
+        }
+    }
+
+    //仅当所有待填项均非空时发布按钮可用
+    @IBAction func editingChanged(sender: AnyObject) {
+        if startDateTextField.notEmpty && endDateTextField.notEmpty && typeTextField.notEmpty && memberNumThresholdField.notEmpty{
+            self.searchActivityButton.isEnabled = true
+        } else {
+            self.searchActivityButton.isEnabled = false
+        }
+    }
+    
 }

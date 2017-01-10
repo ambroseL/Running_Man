@@ -112,6 +112,7 @@ class AddActivityViewController: UITableViewController,UIPickerViewDelegate,UIPi
         //...
         print("Saving data to context ...")
         //reviewText.resignFirstResponder()
+        self.endEdit()
         dismiss(animated: true, completion: nil)
     }
     
@@ -119,6 +120,7 @@ class AddActivityViewController: UITableViewController,UIPickerViewDelegate,UIPi
         //self.view.endEditing(true)
         //reviewText.resignFirstResponder()
         print("Cancel data to context ...")
+        self.endEdit()
         dismiss(animated: true, completion: nil)
     }
     

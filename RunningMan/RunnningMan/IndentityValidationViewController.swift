@@ -9,61 +9,68 @@
 import UIKit
 
 
-class IdentityValidationController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
+class IdentityValidationController: UIViewController {
 
     @IBOutlet var IDTextField: UITextField!
     @IBOutlet var keyTextField: UITextField!
-    @IBOutlet var schoolTextField: UITextField!
     
+    @IBOutlet var sendValidationButton:UIButton!
     @IBOutlet var affirmButton: UIButton!
+    
+     var timer:DispatchSourceTimer? = nil
     
     var isValidStudent:Bool = false
     var pickOption = ["同济大学"]
     
+    var secondCount = 60
+    var percentCount = 0
     //绘制底部线条
-    func drawBottomeLine(textFiled: UITextField)->Void{
+    func drawBottomeLine(sender: AnyObject)->Void{
         let border = CALayer()
         let width = CGFloat(1.0)
         border.borderColor = UIColor(red: 240.0/255.0, green: 235.0/255.0, blue: 241.0/255.0, alpha: 1.0).cgColor
-        border.frame = CGRect(x: 0, y: textFiled.frame.size.height - width, width:  textFiled.frame.size.width, height: textFiled.frame.size.height)
+        border.frame = CGRect(x: 0, y: sender.frame.size.height - width, width:  sender.frame.size.width, height: sender.frame.size.height)
         border.borderWidth = width
-        textFiled.layer.addSublayer(border)
-        textFiled.layer.masksToBounds = true
+        sender.layer.addSublayer(border)
+        sender.layer.masksToBounds = true
     }
     
-    func closeButtonPressed()
-    {
-        schoolTextField.resignFirstResponder()
-    }
     
-    func undoButtonPressed()
-    {
-        schoolTextField.resignFirstResponder()
-        schoolTextField.text = ""
+    func initTimer(){
+        self.timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+        self.timer?.scheduleRepeating(deadline: .now(), interval: .milliseconds(10))
+        // 设定时间源的触发事件 
+        self.timer?.setEventHandler(handler: {
+            // 每秒计时一次 
+            self.percentCount += 1
+            if self.percentCount == 100{
+                self.secondCount -= 1
+                self.percentCount = 0
+            }
+            // 时间到了取消时间源 
+            if self.secondCount <= 0 {
+                self.timer?.cancel()
+                self.sendValidationButton.isEnabled = true
+                self.sendValidationButton.setTitle("发送验证码", for: .normal)
+            } // 返回主线程处理一些事件，更新UI等等
+            DispatchQueue.main.async {
+                self.updateCounting()
+            }
+        }) // 启动时间源
+        self.timer?.resume()
+    }
+
+    
+    func updateCounting(){
+        sendValidationButton.setTitle(String(format:"%ds后发送",secondCount), for: .normal)
+//        sendValidationButton.titleLabel?.text = String(format:"%ds后再次发送",timeCount)
+        sendValidationButton.titleLabel?.adjustsFontSizeToFitWidth=true
     }
     
     func endEdit(){
         self.view.endEditing(true)
     }
     
-    func initPickerView(){
-        let pickerView = UIPickerView()
-        
-        pickerView.delegate = self
-        
-        schoolTextField.inputView = pickerView
-        pickerView.backgroundColor = UIColor.white
-        
-        let numberToolbar = UIToolbar(frame: CGRect(x:0, y:0, width:self.view.frame.width, height:50.0))
-        numberToolbar.barStyle = UIBarStyle.default
-        numberToolbar.items = [
-            UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.undoButtonPressed)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.closeButtonPressed))]
-        numberToolbar.sizeToFit()
-        numberToolbar.tintColor = UIColor(red: 235.0/255.0, green: 74.0/255.0, blue: 94.0/255.0, alpha: 1.0)
-        schoolTextField.inputAccessoryView = numberToolbar
-    }
     
     func initTapGesture(){
         let tap =  UITapGestureRecognizer(target:self, action:#selector(self.endEdit))
@@ -100,7 +107,7 @@ class IdentityValidationController: UIViewController,UIPickerViewDataSource,UIPi
     }
     
     @IBAction func editingChanged(sender: AnyObject) {
-        if IDTextField.notEmpty && keyTextField.notEmpty && schoolTextField.notEmpty{
+        if IDTextField.notEmpty && keyTextField.notEmpty{
             self.affirmButton.enable()
         } else {
             self.affirmButton.disable()
@@ -110,6 +117,7 @@ class IdentityValidationController: UIViewController,UIPickerViewDataSource,UIPi
     func initButton(){
         affirmButton.layer.cornerRadius = 5.0
         affirmButton.disable()
+        sendValidationButton.setTitle("发送验证码", for: .normal)
     }
     
     override func viewDidLoad() {
@@ -117,11 +125,10 @@ class IdentityValidationController: UIViewController,UIPickerViewDataSource,UIPi
 
         initButton()
         initTapGesture()
-        initPickerView()
-        
-        drawBottomeLine(textFiled: IDTextField)
-        drawBottomeLine(textFiled: keyTextField)
-        drawBottomeLine(textFiled: schoolTextField)
+
+        drawBottomeLine(sender: IDTextField)
+        drawBottomeLine(sender: keyTextField)
+        drawBottomeLine(sender: sendValidationButton)
         
         // Do any additional setup after loading the view.
     }
@@ -131,25 +138,6 @@ class IdentityValidationController: UIViewController,UIPickerViewDataSource,UIPi
         // Dispose of any resources that can be recreated.
     }
     
-    //Set number of components in picker view
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    //Set number of rows in components
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickOption.count
-    }
-    
-    //Set title for each row
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickOption[row]
-    }
-    
-    //Update textfield text when row is selected
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        schoolTextField.text = pickOption[row]
-    }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "fromValidate2SignIn"{
@@ -168,9 +156,15 @@ class IdentityValidationController: UIViewController,UIPickerViewDataSource,UIPi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "fromValidate2SignUp" {
             let destinationController = segue.destination as!SignUpViewController
-                destinationController.usrID = isValidStudent ? IDTextField.text! : ""
+                destinationController.usrPhoneNumber = isValidStudent ? IDTextField.text! : ""
             }
     }
 
 
+    @IBAction func sendValidationID(){
+        //...
+        sendValidationButton.isEnabled = false
+        initTimer()
+    }
+    
 }

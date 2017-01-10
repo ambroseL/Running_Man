@@ -24,6 +24,8 @@ class MainPageViewController: UIViewController,UITableViewDataSource, UITableVie
 
     var signatureTextField: UITextField!
     
+    var weatherController:WeatherInfoServer!
+    
      //Main Page部分内容
     var temperatureInfo = ""
     var weatherInfo = ""

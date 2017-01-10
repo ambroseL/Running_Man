@@ -8,16 +8,19 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
 
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var keyTextField: UITextField!
-    @IBOutlet var phoneNumberTextField: UITextField!
+    @IBOutlet var schoolTextField: UITextField!
+    @IBOutlet var schoolIDTextField: UITextField!
     
     @IBOutlet var affirmButton: UIButton!
     
+    var pickOption = ["同济大学"]
+    
     var isValidInfo:Bool = false
-    var usrID = ""
+    var usrPhoneNumber = ""
     
     //绘制底部线条
     func drawBottomeLine(textFiled: UITextField)->Void{
@@ -57,10 +60,10 @@ class SignUpViewController: UIViewController {
     @IBAction func confirmInfo(sender: AnyObject) {
         if self.nameTextField.validateUserName(){
             if self.keyTextField.validatePassword() {
-                if self.phoneNumberTextField.validatePhoneNumber(){
+                if self.schoolIDTextField.validateIDNumber(){
                     isValidInfo = true
                 }else{
-                    self.alert(message: "电话号码格式不合法")
+                    self.alert(message: "学号格式不合法")
                 }
             }else{
                     self.alert(message: "密码格式不合法")
@@ -72,12 +75,11 @@ class SignUpViewController: UIViewController {
 
         
         print("name: \(nameTextField.text)")
-        print("name: \(phoneNumberTextField.text)")
         print("Type: \(keyTextField.text)")
     }
     
     @IBAction func editingChanged(sender: AnyObject) {
-        if nameTextField.notEmpty && keyTextField.notEmpty && phoneNumberTextField.notEmpty{
+        if nameTextField.notEmpty && keyTextField.notEmpty && schoolTextField.notEmpty && schoolIDTextField.notEmpty{
             self.affirmButton.enable()
         } else {
             self.affirmButton.disable()
@@ -108,7 +110,58 @@ class SignUpViewController: UIViewController {
             return isValidInfo}
     }
     
+    func initPickerView(){
+        let pickerView = UIPickerView()
+        
+        pickerView.delegate = self
+        
+        schoolTextField.inputView = pickerView
+        pickerView.backgroundColor = UIColor.white
+        
+        let numberToolbar = UIToolbar(frame: CGRect(x:0, y:0, width:self.view.frame.width, height:50.0))
+        numberToolbar.barStyle = UIBarStyle.default
+        numberToolbar.items = [
+            UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.undoButtonPressed)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.closeButtonPressed))]
+        numberToolbar.sizeToFit()
+        numberToolbar.tintColor = UIColor(red: 235.0/255.0, green: 74.0/255.0, blue: 94.0/255.0, alpha: 1.0)
+        schoolTextField.inputAccessoryView = numberToolbar
+    }
 
+    
+    //Set number of components in picker view
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    //Set number of rows in components
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickOption.count
+    }
+    
+    //Set title for each row
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickOption[row]
+    }
+    
+    //Update textfield text when row is selected
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        schoolTextField.text = pickOption[row]
+    }
+
+    
+    func closeButtonPressed()
+    {
+        schoolTextField.resignFirstResponder()
+    }
+    
+    func undoButtonPressed()
+    {
+        schoolTextField.resignFirstResponder()
+        schoolTextField.text = ""
+    }
+    
     /*
     // MARK: - Navigation
 

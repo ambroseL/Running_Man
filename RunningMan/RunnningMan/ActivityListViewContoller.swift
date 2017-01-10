@@ -12,26 +12,31 @@ class ActivityListViewContoller: UITableViewController {
 
     
     //复用界面对应的标题
-    var barTitles：String = ["搜索结果","最新发布","热门活动","参加的活动","组织的活动"]
+    var barTitles = ["搜索结果","最新发布","热门活动","参加的活动","发布的活动"]
     
     //对应的identityfiers
     var identifiersForEachSection = ["RecentActivitiesCell","RecentActivitiesCell","HotActivitiesCell","MineOrganizedActivitiesCell","MineParticipatedActivitiesCell"]
     
+    //demo用
+    var activiesTiltles = ["减肥的同学请进","跑步求带走，男女不限","俱乐部活动，欢迎大家参与"]
+    var activitiesOrganizers = ["Ella", "Maria", "Stefan"]
+    var detailedDescriptions = ["明晚约跑，地点嘉实...","今天下午or晚上...","明晚同济夜跑将在..."]
+    
     
     //借助.rawValue作为barTitles的index
-    enum titleType {
-        case SEARCH
-        case RECENT
-        case HOT
-        case PARTICIPATED
-        case ORGANIZED
+    enum titleType:Int {
+        case SEARCH = 0
+        case RECENT = 1
+        case HOT = 2
+        case PARTICIPATED = 3
+        case ORGANIZED = 4
     }
     
     //需其他controller传值，默认为search
-    var displayType:titleType = titleType.SEARCH
+    var displayType:titleType = .SEARCH
     
     //符合要求的活动数，加入数据库后应为一对象数组
-    var activitiesNum: Int! = 3
+    var activitiesNum: Int = 3
     
     //刷新提示
     var indicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -41,7 +46,7 @@ class ActivityListViewContoller: UITableViewController {
         super.viewDidLoad()
         
       initTableView(tableView: self.tableView)
-        
+        self.navigationItem.title = barTitles[displayType.rawValue]
         //添加下拉刷新
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(onPullToFresh), for: UIControlEvents.valueChanged)
@@ -52,11 +57,10 @@ class ActivityListViewContoller: UITableViewController {
     
     func initTableView(tableView:UITableView){
         tableView.separatorColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 0.8)
-        
         //采用自适应布局
         tableView.estimatedRowHeight = 300.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        //tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
 
@@ -140,17 +144,17 @@ class ActivityListViewContoller: UITableViewController {
     }
     
     func setRecentActivitiesCell(cell:RecentActivitiesCell,rowIndex:Int){
-//        cell.activitiesTitleLabel.text = activiesTiltles[rowIndex]
-//        cell.activitiesDescriptionLabel.text = detailedDescriptions[rowIndex]
-//        cell.userProfileButton.imageView?.image = UIImage(named:"Boy")
-//        cell.organizerName.text = activitiesOrganizers[rowIndex]
+        cell.activitiesTitleLabel.text = activiesTiltles[rowIndex]
+        cell.activitiesDescriptionLabel.text = detailedDescriptions[rowIndex]
+        cell.userProfileButton.imageView?.image = UIImage(named:"Boy")
+        cell.organizerName.text = activitiesOrganizers[rowIndex]
     }
     
     func setHotActivitiesCell(cell:HotActivitiesCell,rowIndex:Int){
-//        cell.activitiesTitleLabel.text = activiesTiltles[rowIndex]
-//        cell.activitiesDescriptionLabel.text = detailedDescriptions[rowIndex]
-//        cell.userProfileButton.imageView?.image = UIImage(named:"Boy")
-//        cell.organizerName.text = activitiesOrganizers[rowIndex]
+        cell.activitiesTitleLabel.text = activiesTiltles[rowIndex]
+        cell.activitiesDescriptionLabel.text = detailedDescriptions[rowIndex]
+        cell.userProfileButton.imageView?.image = UIImage(named:"Boy")
+        cell.organizerName.text = activitiesOrganizers[rowIndex]
     }
     
     func setMineParticipatedActivitiesCell(cell:MineParticipatedActivitiesCell,rowIndex:Int){
@@ -166,15 +170,11 @@ class ActivityListViewContoller: UITableViewController {
 //        cell.activityDate.text = activitiesDate[rowIndex]
 //        cell.activityState.text = activitiesState[rowIndex]==true ? "已结束" : "待开始"
     }
-
-    
-
     
     //重用
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellIdentifier = "resultCell"
-        
+        let cellIdentifier:String = identifiersForEachSection[displayType.rawValue]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         //初始化cell...
         //调用以上各种setCell方法
@@ -182,6 +182,27 @@ class ActivityListViewContoller: UITableViewController {
         // Configure the cell...
         return cell
     }
-
-
+    
+    //滚动时发生变化
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //如果没有新数据或者没有隐藏内容
+        if tableView.tableFooterView?.isHidden == false{
+            return
+        }
+        //回去scroll滚动y值
+        let offsetY:CGFloat = scrollView.contentOffset.y;
+        //获取最大高度
+        let maxHeigth:CGFloat = max(0,scrollView.contentSize.height - scrollView.frame.size.height + 50);
+        
+        if (offsetY >= maxHeigth) {
+            let when = DispatchTime.now() + 1
+            self.showFooterView()
+            //加载数据，正常情况下无需定时，此处是为了模拟延时效果
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                //加载更多数据
+                self.loadMoreData()
+            }
+        }
+    }
+    
 }

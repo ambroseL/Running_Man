@@ -18,6 +18,19 @@ class SocialGroupViewController: UIViewController,UITableViewDataSource, UITable
     
     var identifiersForEachMineSection = [["MineOrganizedActivitiesTitleCell","MineOrganizedActivitiesCell"],["MineParticipatedActivitiesTitleCell","MineParticipatedActivitiesCell"]]
     
+    //懒加载，用到的时候再refreshControl开辟空间
+    lazy var refreshMineViewControl: UIRefreshControl = {
+        let refreshMineViewControl = UIRefreshControl()
+        refreshMineViewControl.addTarget(self, action: #selector(onPullToFresh), for: UIControlEvents.valueChanged)
+        return refreshMineViewControl
+    }()
+    
+    lazy var refreshDisciveryViewControl:UIRefreshControl = {
+        let refreshDisciveryViewControl = UIRefreshControl()
+        refreshDisciveryViewControl.addTarget(self, action: #selector(onPullToFresh), for: UIControlEvents.valueChanged)
+        return refreshDisciveryViewControl
+    }()
+    
     //活动时间
     var activitiesDate = ["2016-12-12","2016-12-17","2016-12-18","2016-12-19","2016-12-16","2016-12-30"]
     //活动状态，真为已结束，假为未开始
@@ -52,7 +65,6 @@ class SocialGroupViewController: UIViewController,UITableViewDataSource, UITable
     
     func initTableView(tableView:UITableView){
         tableView.separatorColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 0.8)
-        
         //采用自适应布局
         tableView.estimatedRowHeight = 300.0
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -94,14 +106,40 @@ class SocialGroupViewController: UIViewController,UITableViewDataSource, UITable
         swipe2Right.addTarget(self, action: #selector(self.tableMoveRight))
         self.scrollView.addGestureRecognizer(swipe2Left)
         self.scrollView.addGestureRecognizer(swipe2Right)
-        
+        initTouchGesture(view: self.scrollView)
     }
+    
+    func initTouchGesture(view: UIView){
+        let tap =  UITapGestureRecognizer(target:self, action:#selector(self.gotoAdvertisingDetailedView))
+        view.addGestureRecognizer(tap)
+    }
+
+
+    func gotoAdvertisingDetailedView(){
+         self.performSegue(withIdentifier: "showAdvertisingDetailedInfo", sender: nil)
+    }
+    
+    //下拉刷新时调用的方法
+    func onPullToFresh(fresh:UIRefreshControl){
+        print("refresh\n")
+        //updateReviewData()
+        //tableView.reloadData()
+        if fresh == refreshDisciveryViewControl{
+            discoveryTableView.reloadData()
+        }else if fresh == refreshMineViewControl{
+            mineTableView.reloadData()
+        }
+        fresh.endRefreshing()
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         initTableView(tableView: discoveryTableView)
         initTableView(tableView: mineTableView)
+        discoveryTableView.addSubview(refreshDisciveryViewControl)
+        mineTableView.addSubview(refreshMineViewControl)
         initScroll()
         initSwipeGesture()
     }
@@ -397,14 +435,30 @@ class SocialGroupViewController: UIViewController,UITableViewDataSource, UITable
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "PopOver" {
-            let popoverViewController = segue.destination
-            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
-            popoverViewController.preferredContentSize   = CGSize(width:138, height:80)
-            let popoverPresentationViewController = popoverViewController.popoverPresentationController
-            popoverPresentationViewController?.permittedArrowDirections = .up
-            popoverPresentationViewController?.delegate = self
-            
+        if let identifier:String = segue.identifier{
+            switch identifier {
+            case "PopOver":
+                let popoverViewController = segue.destination
+                popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
+                popoverViewController.preferredContentSize   = CGSize(width:138, height:80)
+                let popoverPresentationViewController = popoverViewController.popoverPresentationController
+                popoverPresentationViewController?.permittedArrowDirections = .up
+                popoverPresentationViewController?.delegate = self
+            case "Hot2Result":
+                let destinationController = segue.destination as! ActivityListViewContoller
+                destinationController.displayType = .HOT
+            case "Recent2Result":
+                let destinationController = segue.destination as! ActivityListViewContoller
+                destinationController.displayType = .RECENT
+            case "MineParticipated2Result":
+                let destinationController = segue.destination as! ActivityListViewContoller
+                destinationController.displayType = .PARTICIPATED
+            case "MineOrganized2Result":
+                let destinationController = segue.destination as! ActivityListViewContoller
+                destinationController.displayType = .ORGANIZED
+            default:
+                break
+            }
         }
     }
     
